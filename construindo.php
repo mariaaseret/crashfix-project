@@ -642,252 +642,21 @@ $countArrayLength = count($values);
 
 </div>
 
-<?php
 
-$result10 = $conn->query("select * from tbl_appversion where project_id = 1 and (tbl_appversion.version not like '%DEV' AND tbl_appversion.version not like '%RC'  AND tbl_appversion.version not like 'null') and (tbl_appversion.version not like '(not set)') order by id");
-
-
-
-(isset($_POST["submit10"])) ? $messelecionado10 = $_POST["SelecaoMes10"] : $messelecionado10=00;
-
-$id10 =0;
-echo "<html>";
-echo "<body>";
-echo "<hr>";
-echo "<p style='font-size:18px; font-family: 'Lato', Helvetica, Arial, sans-serif;'><b>Eberick - Número de crashes por mês, ano e versão</b></p>";
-echo "<form  method='post'>";
-echo "<select name='versao10'>";
-while (($row = $result10->fetch_assoc())) {
-    unset($id10);
-    $id10 = $row['id'];
-    $versao10 = $row['version'];
-    echo '<option value="'.$id10.'">'.$versao10.'</option>'; 
-}
-echo "</select>";
-
-?>
-<select name="SelecaoMes10">
-    <option value="00" <?php if ($messelecionado10== 00 )  echo 'selected'; ?> >Mêsss</option>
-    <option value="01" <?php if ($messelecionado10== 01 )  echo 'selected'; ?> >Janeiro</option>
-    <option value="02" <?php if ($messelecionado10== 02 )  echo 'selected'; ?>>Fevereiro</option>
-    <option value="03">Março</option>
-    <option value="04">Abril</option>
-    <option value="05">Maio</option>
-    <option value="06">Junho</option>
-    <option value="07">Julho</option>
-    <option value="08">Agosto</option>
-    <option value="09">Setembro</option>
-    <option value="10">Outubro</option>
-    <option value="11">Novembro</option>
-    <option value="12">Dezembro</option>
-</select>
-<select name="SelecaoAno10">
-    <option value="selecione">Ano</option>
-    <option value="2017">2017</option>
-    <option value="2018">2018</option>
-    <option value="2019">2019</option>
-</select>
-
-
-<input type="submit" name="submit10" value="Selecionar"/>
-</form>
 
 <?php
 
-
-$anoselecionado10 = 2017;
-$appversion10 = 10;
-
-if(isset($_POST['submit10'])) {
-    $anoselecionado10 = $_POST['SelecaoAno10'];
-    $messelecionado10 = $_POST['SelecaoMes10'];
-    $appversion10 = $_POST['versao10'];   
-
-}
-
-$query10="SELECT count(*) as l FROM crashfix.tbl_crashreport WHERE month(FROM_UNIXTIME(date_created)) = '$messelecionado10' && year(FROM_UNIXTIME(date_created)) = '$anoselecionado10' && appversion_id = '$appversion10' && project_id = 1";
-$result10=mysqli_query($conn,$query10);
-
-?>
-<table>
-    <tr>
-        <?php
-
-
-        if($result10)
-        {
-            while($row=mysqli_fetch_assoc($result10))
-            {
-                echo '<td>';
-                echo "Mês selecionado: ";
-                echo '</td>';
-                echo '<td>';
-                echo $messelecionado10;
-                echo '</td>';
-                echo '</tr>';
-                echo '<tr>';
-                echo '<td>';
-                echo "Ano selecionado: ";
-                echo '</td>';
-                echo '<td>';
-                echo $anoselecionado10;
-                echo '</td>';
-                echo '</tr>';
-                echo '<tr>';
-                echo '<td>';
-                echo 'Total de crashes: ';
-                echo '</td>';
-                echo '<td>';
-                echo $row['l'];
-                echo '</td>';
-                echo '</tr>';
-                echo '<tr>';
-                echo '<td>';
-                echo 'app version: ';
-                echo '</td>';
-                echo '<td>';
-                echo $appversion10;
-                echo '</td>';
-                echo '</tr>';
-            }     
-        }
-
-
-
-        ?>
-    </tr>
-
-
-
-</table>
-
-<hr>
-
-<?php
-$result11 = $conn->query("select * from tbl_appversion where project_id = 2 and (tbl_appversion.version not like '%DEV' AND tbl_appversion.version not like '%RC'  AND tbl_appversion.version not like 'null') and (tbl_appversion.version not like '(not set)') order by id");
-
-$id11 =0;
-echo "<html>";
-echo "<body>";
-echo "<p style='font-size:18px; font-family: 'Lato', Helvetica, Arial, sans-serif;'><b>Qibulder - Número de crashes por mês, ano e versão</b></p>";
-echo "<form  method='post'>";
-echo "<select name='versao11'>";
-while (($row = $result11->fetch_assoc())) {
-    unset($id11);
-    $id11 = $row['id'];
-    $versao11 = $row['version'];
-    echo '<option value="'.$id11.'">'.$versao11.'</option>';
-}
-echo "</select>";
-
-?>
-<select name="SelecaoMes11">
-    <option value="00">Mês</option>
-    <option value="01">Janeiro</option>
-    <option value="02">Fevereiro</option>
-    <option value="03">Março</option>
-    <option value="04">Abril</option>
-    <option value="05">Maio</option>
-    <option value="06">Junho</option>
-    <option value="07">Julho</option>
-    <option value="08">Agosto</option>
-    <option value="09">Setembro</option>
-    <option value="10">Outubro</option>
-    <option value="11">Novembro</option>
-    <option value="12">Dezembro</option>
-</select>
-<select name="SelecaoAno11">
-    <option value="selecione">Ano</option>
-    <option value="2017">2017</option>
-    <option value="2018">2018</option>
-    <option value="2019">2019</option>
-</select>
-
-
-<input type="submit" name="submit11" value="Selecionar"/>
-</form>
-<?php
-
-$messelecionado11 = 01;
-$anoselecionado11 = 2017;
-$appversion11 = 10;
-
-if(isset($_POST['submit11'])) {
-    $anoselecionado11 = $_POST['SelecaoAno11'];
-    $messelecionado11 = $_POST['SelecaoMes11'];
-    $appversion11 = $_POST['versao11'];   
-
-
-}
-
-$query11="SELECT count(*) as o FROM crashfix.tbl_crashreport WHERE month(FROM_UNIXTIME(date_created)) = '$messelecionado10' && year(FROM_UNIXTIME(date_created)) = '$anoselecionado10' && appversion_id = '$appversion10' && project_id = 4";
-$result11=mysqli_query($conn,$query11);
-
-?>
-<table>
-    <tr>
-        <?php
-
-
-        if($result11)
-        {
-            while($row=mysqli_fetch_assoc($result11))
-            {
-                echo '<td>';
-                echo "Mês selecionado: ";
-                echo '</td>';
-                echo '<td>';
-                echo $messelecionado11;
-                echo '</td>';
-                echo '</tr>';
-                echo '<tr>';
-                echo '<td>';
-                echo "Ano selecionado: ";
-                echo '</td>';
-                echo '<td>';
-                echo $anoselecionado11;
-                echo '</td>';
-                echo '</tr>';
-                echo '<tr>';
-                echo '<td>';
-                echo 'Total de crashes: ';
-                echo '</td>';
-                echo '<td>';
-                echo $row['o'];
-                echo '</td>';
-                echo '</tr>';
-                echo '<tr>';
-                echo '<td>';
-                echo 'app version: ';
-                echo '</td>';
-                echo '<td>';
-                echo $appversion11;
-                echo '</td>';
-                echo '</tr>';
-            }     
-        }
-        ?>
-    </tr>
-
-</table>
-
-
-<hr>
-<?php
-
+//PRECISO CONSIDERAR O ANO AQUI NESSA QUERY MAS AINDA NAO FIZ 
 $result9 = $conn->query("select * from tbl_appversion where project_id = 4 and (tbl_appversion.version not like '%DEV' AND tbl_appversion.version not like '%RC'  AND tbl_appversion.version not like 'null') and (tbl_appversion.version not like '(not set)') order by id");
-
 $id9[0] = 0;
 $versao9[0] = 0;
 $i=0;
-echo "<p style='font-size:18px; font-family: 'Lato', Helvetica, Arial, sans-serif;'><b>Qicad - Número de crashes por mês, ano e versão</b></p>";
-
 while (($row = $result9->fetch_assoc())) {
-    $id[$i] =  $row['id'];
+    $idi[$i] =  $row['id'];
     $versao9[$i] = $row['version'];
     $i++;
 }
-print_r($versao9);
+//print_r($versao9);
 
 
 
@@ -897,32 +666,303 @@ print_r($versao9);
 
 <?php
 
+$i =0;
+$max = sizeof($versao9);
 
+//GRÁFICOS DE CRASHES POR ANO E VERSÃO
 
-
-
-$query9="SELECT count(*) as k FROM crashfix.tbl_crashreport WHERE month(FROM_UNIXTIME(date_created)) = 1 && year(FROM_UNIXTIME(date_created)) = '$anoselecionado' && appversion_id = 0 && project_id = 4";
-$result9=mysqli_query($conn,$query9);
-
-?>
-<table>
-    <?php
-    if($result9)
+//JANEIRO 
+for($i =0; $i < $max; $i++){
+    $qAreaJAN = "SELECT count(*) as k FROM crashfix.tbl_crashreport WHERE month(FROM_UNIXTIME(date_created)) = 1 && year(FROM_UNIXTIME(date_created)) = '$anoselecionado' && appversion_id = '$idi[$i]' && project_id = 4";
+    $qAreaJAN=mysqli_query($conn, $qAreaJAN);
+    if($qAreaJAN)
     {
-        while($row=mysqli_fetch_assoc($result9))
+        while($row=mysqli_fetch_assoc($qAreaJAN))
         {
-            echo '<tr>';
-            echo '<td>';
-            echo 'Total de crashes: ';
-            echo '</td>';
-            echo '<td>';
-            echo $row['k'];
-            echo '</td>';
-
+            $areaJAN[$i] = $row['k'];
         }     
     }
+}
+//FEVEREIRO
+for($i = 0; $i < $max; $i++){
+    $qAreaFEV = "SELECT count(*) as R FROM crashfix.tbl_crashreport WHERE month(FROM_UNIXTIME(date_created)) = 2 && year(FROM_UNIXTIME(date_created)) = '$anoselecionado' && appversion_id = '$idi[$i]' && project_id = 4";
+    $qAreaFEV=mysqli_query($conn, $qAreaFEV);
+    if($qAreaFEV)
+    {
+        while($row=mysqli_fetch_assoc($qAreaFEV))
+        {
+            $areaFEV[$i] = $row['R'];
+        }     
+    }
+}
+//MARCO
+for($i = 0; $i < $max; $i++){
+    $qAreaMAR = "SELECT count(*) as k FROM crashfix.tbl_crashreport WHERE month(FROM_UNIXTIME(date_created)) = 3 && year(FROM_UNIXTIME(date_created)) = '$anoselecionado' && appversion_id = '$idi[$i]' && project_id = 4";
+    $qAreaMAR=mysqli_query($conn, $qAreaMAR);
+    if($qAreaMAR)
+    {
+        while($row=mysqli_fetch_assoc($qAreaMAR))
+        {
+            $areaMAR[$i] = $row['k'];
+        }     
+    }
+}
+//ABRIL
+for($i = 0; $i < $max; $i++){
+    $qAreaABR = "SELECT count(*) as k FROM crashfix.tbl_crashreport WHERE month(FROM_UNIXTIME(date_created)) = 4 && year(FROM_UNIXTIME(date_created)) = '$anoselecionado' && appversion_id = '$idi[$i]' && project_id = 4";
+    $qAreaABR=mysqli_query($conn, $qAreaABR);
+    if($qAreaABR)
+    {
+        while($row=mysqli_fetch_assoc($qAreaABR))
+        {
+            $areaABR[$i] = $row['k'];
+        }     
+    }
+}
+//MAIO
+for($i = 0; $i < $max; $i++){
+    $qAreaMAI = "SELECT count(*) as k FROM crashfix.tbl_crashreport WHERE month(FROM_UNIXTIME(date_created)) = 5 && year(FROM_UNIXTIME(date_created)) = '$anoselecionado' && appversion_id = '$idi[$i]' && project_id = 4";
+    $qAreaMAI=mysqli_query($conn, $qAreaMAI);
+    if($qAreaMAI)
+    {
+        while($row=mysqli_fetch_assoc($qAreaMAI))
+        {
+            $areaMAI[$i] = $row['k'];
+        }     
+    }
+}
+//JUNHO
+for($i = 0; $i < $max; $i++){
+    $qAreaJUN = "SELECT count(*) as k FROM crashfix.tbl_crashreport WHERE month(FROM_UNIXTIME(date_created)) = 6 && year(FROM_UNIXTIME(date_created)) = '$anoselecionado' && appversion_id = '$idi[$i]' && project_id = 4";
+    $qAreaJUN=mysqli_query($conn, $qAreaJUN);
+    if($qAreaJUN)
+    {
+        while($row=mysqli_fetch_assoc($qAreaJUN))
+        {
+            $areaJUN[$i] = $row['k'];
+        }     
+    }
+}
+//JULHO
+for($i = 0; $i < $max; $i++){
+    $qAreaJUL = "SELECT count(*) as k FROM crashfix.tbl_crashreport WHERE month(FROM_UNIXTIME(date_created)) = 7 && year(FROM_UNIXTIME(date_created)) = '$anoselecionado' && appversion_id = '$idi[$i]' && project_id = 4";
+    $qAreaJUL=mysqli_query($conn, $qAreaJUL);
+    if($qAreaJUL)
+    {
+        while($row=mysqli_fetch_assoc($qAreaJUL))
+        {
+            $areaJUL[$i] = $row['k'];
+        }     
+    }
+}
+//AGOSTO
+for($i = 0; $i < $max; $i++){
+    $qAreaAGO = "SELECT count(*) as k FROM crashfix.tbl_crashreport WHERE month(FROM_UNIXTIME(date_created)) = 8 && year(FROM_UNIXTIME(date_created)) = '$anoselecionado' && appversion_id = '$idi[$i]' && project_id = 4";
+    $qAreaAGO=mysqli_query($conn, $qAreaAGO);
+    if($qAreaAGO)
+    {
+        while($row=mysqli_fetch_assoc($qAreaAGO))
+        {
+            $areaAGO[$i] = $row['k'];
+        }     
+    }
+}
 
-    /*query que deu certo 
+//SETEMBRO
+for($i = 0; $i < $max; $i++){
+    $qAreaSET = "SELECT count(*) as k FROM crashfix.tbl_crashreport WHERE month(FROM_UNIXTIME(date_created)) = 9 && year(FROM_UNIXTIME(date_created)) = '$anoselecionado' && appversion_id = '$idi[$i]' && project_id = 4";
+    $qAreaSET=mysqli_query($conn, $qAreaSET);
+    if($qAreaSET)
+    {
+        while($row=mysqli_fetch_assoc($qAreaSET))
+        {
+            $areaSET[$i] = $row['k'];
+        }     
+    }
+}
+//OUTUBRO
+for($i = 0; $i < $max; $i++){
+    $qAreaOUT = "SELECT count(*) as k FROM crashfix.tbl_crashreport WHERE month(FROM_UNIXTIME(date_created)) = 10 && year(FROM_UNIXTIME(date_created)) = '$anoselecionado' && appversion_id = '$idi[$i]' && project_id = 4";
+    $qAreaOUT=mysqli_query($conn, $qAreaOUT);
+    if($qAreaOUT)
+    {
+        while($row=mysqli_fetch_assoc($qAreaOUT))
+        {
+            $areaOUT[$i] = $row['k'];
+        }     
+    }
+}
+//NOVEMBRO
+for($i = 0; $i < $max; $i++){
+    $qAreaNOV = "SELECT count(*) as k FROM crashfix.tbl_crashreport WHERE month(FROM_UNIXTIME(date_created)) = 11 && year(FROM_UNIXTIME(date_created)) = '$anoselecionado' && appversion_id = '$idi[$i]' && project_id = 4";
+    $qAreaNOV=mysqli_query($conn, $qAreaNOV);
+    if($qAreaNOV)
+    {
+        while($row=mysqli_fetch_assoc($qAreaNOV))
+        {
+            $areaNOV[$i] = $row['k'];
+        }     
+    }
+}
+
+//DEZEMBRO
+for($i = 0; $i < $max; $i++){
+    $qAreaDEZ = "SELECT count(*) as k FROM crashfix.tbl_crashreport WHERE month(FROM_UNIXTIME(date_created)) = 12 && year(FROM_UNIXTIME(date_created)) = '$anoselecionado' && appversion_id = '$idi[$i]' && project_id = 4";
+    $qAreaDEZ=mysqli_query($conn, $qAreaDEZ);
+    if($qAreaDEZ)
+    {
+        while($row=mysqli_fetch_assoc($qAreaDEZ))
+        {
+            $areaDEZ[$i] = $row['k'];
+        }     
+    }
+}
+
+?>
+
+
+<script type="text/javascript">
+    google.charts.load('current', {'packages':['corechart']});
+    google.charts.setOnLoadCallback(drawChart);
+
+    function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+
+            <?php
+            $max = sizeof($versao9);
+            echo "['MES',";            
+            for($i = 0; $i < $max;$i++)
+            {
+                echo "'" . $versao9[$i] . "',";
+            }
+            echo "],";
+            ?>
+         
+            ['JAN',    <?php
+            $max = sizeof($versao9);      
+            for($i = 0; $i < $max;$i++)
+            {
+                echo $areaJAN[$i] . ",";
+            }
+            echo "],";
+            ?>
+          
+            ['FEV',  <?php
+            $max = sizeof($versao9);      
+            for($i = 0; $i < $max;$i++)
+            {
+                echo $areaFEV[$i] . ",";
+            }
+            echo "],";
+            ?>
+            ['MAR',  <?php
+            $max = sizeof($versao9);      
+            for($i = 0; $i < $max;$i++)
+            {
+                echo $areaMAR[$i] . ",";
+            }
+            echo "],";
+            ?>
+            ['ABR', <?php
+            $max = sizeof($versao9);      
+            for($i = 0; $i < $max;$i++)
+            {
+                echo $areaABR[$i] . ",";
+            }
+            echo "],";
+            ?>
+            ['MAI', <?php
+            $max = sizeof($versao9);      
+            for($i = 0; $i < $max;$i++)
+            {
+                echo $areaMAI[$i] . ",";
+            }
+            echo "],";
+            ?>
+            ['JUN', <?php
+            $max = sizeof($versao9);      
+            for($i = 0; $i < $max;$i++)
+            {
+                echo $areaJUN[$i] . ",";
+            }
+            echo "],";
+            ?>
+            ['JUL',  <?php
+            $max = sizeof($versao9);      
+            for($i = 0; $i < $max;$i++)
+            {
+                echo $areaJUL[$i] . ",";
+            }
+            echo "],";
+            ?>
+            ['AGO',  <?php
+            $max = sizeof($versao9);      
+            for($i = 0; $i < $max;$i++)
+            {
+                echo $areaAGO[$i] . ",";
+            }
+            echo "],";
+            ?>
+            ['SET',  <?php
+            $max = sizeof($versao9);      
+            for($i = 0; $i < $max;$i++)
+            {
+                echo $areaSET[$i] . ",";
+            }
+            echo "],";
+            ?>
+            ['OUT',  <?php
+            $max = sizeof($versao9);      
+            for($i = 0; $i < $max;$i++)
+            {
+                echo $areaOUT[$i] . ",";
+            }
+            echo "],";
+            ?>
+            ['NOV', <?php
+            $max = sizeof($versao9);      
+            for($i = 0; $i < $max;$i++)
+            {
+                echo $areaNOV[$i] . ",";
+            }
+            echo "],";
+            ?>
+            ['DEZ',  <?php
+            $max = sizeof($versao9);      
+            for($i = 0; $i < $max;$i++)
+            {
+                echo $areaDEZ[$i] . ",";
+            }
+            echo "],";
+            ?>
+        ]);
+
+        var options = {
+            title: 'Qicad - Número de crashes por mês, ano e versão',
+            hAxis: {title: 'Mês',  titleTextStyle: {color: '#333'}},
+            vAxis: {minValue: 0}
+        };
+        var chart = new google.visualization.AreaChart(document.getElementById('chart_div'));
+        chart.draw(data, options);
+    }
+</script>
+<div id="chart_div" style="width: 100%; height: 500px;"></div>
+</body>
+</html>
+
+<?php
+ /* ANOTACAO IMPORTANTES 
+$max = sizeof($versao9);
+echo "[";            
+for($i = 0; $i < $max;$i++)
+{
+    echo "'" . $idi[$i] . "',";
+}
+echo "],";
+
+
+
+ query que deu certo 
 select * from tbl_appversion where (version not like '%DEV' AND version not like '%RC'  AND version not like 'null') and project_id =1  and (version not like '(not set)') order by id
 
 SELECT  tbl_appversion.project_id ,version, appversion_id  FROM crashfix.tbl_crashreport, crashfix.tbl_appversion  
@@ -934,54 +974,4 @@ select count(tbl_crashreport.id) from tbl_crashreport left join tbl_appversion o
 
 
 */
-    ?>
-    </tr>
-</table>
-<hr>
-<script type="text/javascript">
-    google.charts.load('current', {'packages':['corechart']});
-    google.charts.setOnLoadCallback(drawChart);
-
-    function drawChart() {
-        var data = google.visualization.arrayToDataTable([
-
-       
-
-              <?php
-           $max = sizeof($versao9);
-echo "[";            
-for($i = 0; $i < $max;$i++)
-            {
-               echo "'" . $versao9[$i] . "',";
-            }
-echo "],";
-            ?>
-          ['2013',  1000,      400,400,400],
-          ['2014',  1170,      460,400,400],
-          ['2015',  660,       1120,400,400],
-          ['2016',  1030,      540,400,400]
-        ]);
-
-        var options = {
-            title: 'Company Performance',
-            hAxis: {title: 'Year',  titleTextStyle: {color: '#333'}},
-            vAxis: {minValue: 0}
-        };
-
-        var chart = new google.visualization.AreaChart(document.getElementById('chart_div'));
-        chart.draw(data, options);
-    }
-</script>
-<div id="chart_div" style="width: 100%; height: 500px;"></div>
-</body>
-</html>
-
-     <?php
-           $max = sizeof($versao9);
-echo "[";            
-for($i = 0; $i < $max;$i++)
-            {
-               echo "'" . $versao9[$i] . "',";
-            }
-echo "],";
-            ?>
+?>
