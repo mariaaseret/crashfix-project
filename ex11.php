@@ -21,10 +21,9 @@
     }
 
 
+
 </style>
 <?php
-
-
 //exibe o contador diretamente do banco
 
 /*$conn = new mysqli('192.168.10.12', 'crashfix', 'd&U2Opi#=2a8', 'crashfix') 
@@ -38,73 +37,168 @@ $conn = new mysqli('34.225.230.59', 'crashfix', 'Cr9999aq', 'crashfix')
 
 (isset($_POST["submit"])) ? $anoselecionado = $_POST["SelecaoAno"] : $anoselecionado=2018;
 
-//*************************************************************************
-
-
-if(isset($_POST['submit'])) {
-    $anoselecionado = $_POST['SelecaoAno'];
-}// VARIAVEL SELECIONADA
-
-
-//PARA O GRÁFICO MENSAL
-
-$query5="select count(tbl_crashreport.id) as e from tbl_crashreport left join tbl_appversion on tbl_appversion.id = tbl_crashreport.appversion_id  where (tbl_appversion.version not like '%DEV' AND tbl_appversion.version not like '%RC'  AND tbl_appversion.version not like 'null') and tbl_crashreport.project_id =1 and  year(FROM_UNIXTIME(tbl_crashreport.date_created)) = '$anoselecionado' and (tbl_appversion.version not like '(not set)')";
-$result5=mysqli_query($conn,$query5);
-$query6="select count(tbl_crashreport.id) as f from tbl_crashreport left join tbl_appversion on tbl_appversion.id = tbl_crashreport.appversion_id  where (tbl_appversion.version not like '%DEV' AND tbl_appversion.version not like '%RC'  AND tbl_appversion.version not like 'null') and tbl_crashreport.project_id =2 and  year(FROM_UNIXTIME(tbl_crashreport.date_created)) = '$anoselecionado' and (tbl_appversion.version not like '(not set)')";
-$result6=mysqli_query($conn,$query6);
-$query7="select count(tbl_crashreport.id) as g from tbl_crashreport left join tbl_appversion on tbl_appversion.id = tbl_crashreport.appversion_id  where (tbl_appversion.version not like '%DEV' AND tbl_appversion.version not like '%RC'  AND tbl_appversion.version not like 'null') and tbl_crashreport.project_id =4 and  year(FROM_UNIXTIME(tbl_crashreport.date_created)) = '$anoselecionado' and (tbl_appversion.version not like '(not set)')";
-$result7=mysqli_query($conn,$query7);
-
-$eberick = 1 ;
-$qibuilder = 1 ;
-$qicad = 1 ;
-
-if($result5)
-{
-    while($row=mysqli_fetch_assoc($result5))
-    {
-        $eberick = $row['e'];
-    }     
-}
-if($result6)
-{
-    while($row=mysqli_fetch_assoc($result6))
-    {
-        $qibuilder = $row['f'];
-    }     
-}
-if($result7)
-{
-    while($row=mysqli_fetch_assoc($result7))
-    {
-        $qicad = $row['g'];
-    }     
-}
-
-echo '<br/>';
-$soma2 = $eberick + $qibuilder + $qicad;
-
-
-if($eberick != 0){
-    $porcentagemeberick = (100*$eberick)/$soma2;
-}else{
-    $porcentagemeberick = 0;
-}
-
-if($qibuilder != 0){
-    $porcentagemqibuilder = (100*$qibuilder)/$soma2;    
-}else {
-    $porcentagemqibuilder = 0;
-}
-
-if($qicad != 0) {
-    $porcentagemqicad = (100*$qicad)/$soma2;    
-}else{
-    $porcentagemqicad = 0;
-}
+$messelecionado = 01;
 
 
 
+
+?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Trasitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+    <head>
+        <meta http-equiv="content-type" content="txt/html; charset=utf-8" />
+        <title>Gráficos e Relatórios Crashfix</title>
+        <link rel="shortcut icon" href="https://www.altoqi.com.br/wp-content/uploads/2017/10/cropped-favicon-01.png" type="image/x-icon" 
+
+              <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+    </head>
+
+
+
+<body>
+    <table class="columns">
+        <tr>
+            <td>
+                <p style="font-family: 'Lato', Helvetica, Arial, sans-serif; "><b>Selecione o ano desejado</b></p>
+
+                <form  method="post">
+
+                    <select id="SelecaoAno" name="SelecaoAno">
+                        <option value="selecione"  <?php if ($anoselecionado == 2015 )  echo 'selected'; ?>>Ano</option>
+                        <option value="2017" <?php if ($anoselecionado == 2017 ) echo 'selected'; ?>>2017</option>
+                        <option value="2018" <?php if ($anoselecionado == 2018 )  echo 'selected'; ?>>2018</option>
+                        <option value="2019" <?php if ($anoselecionado == 2019 )  echo 'selected'; ?>>2019</option>
+                    </select>
+                    <input type="submit" name="submit" value="Selecionar"/>
+                </form>
+
+                <?php
+
+                if(isset($_POST['submit'])) {
+                    $anoselecionado = $_POST['SelecaoAno'];
+                }// VARIAVEL SELECIONADA
+
+
+                //PARA O GRÁFICO MENSAL
+
+                $query5="select count(tbl_crashreport.id) as e from tbl_crashreport left join tbl_appversion on tbl_appversion.id = tbl_crashreport.appversion_id  where (tbl_appversion.version not like '%DEV' AND tbl_appversion.version not like '%RC'  AND tbl_appversion.version not like 'null') and tbl_crashreport.project_id =1 and  year(FROM_UNIXTIME(tbl_crashreport.date_created)) = '$anoselecionado' and (tbl_appversion.version not like '(not set)')";
+                $result5=mysqli_query($conn,$query5);
+                $query6="select count(tbl_crashreport.id) as f from tbl_crashreport left join tbl_appversion on tbl_appversion.id = tbl_crashreport.appversion_id  where (tbl_appversion.version not like '%DEV' AND tbl_appversion.version not like '%RC'  AND tbl_appversion.version not like 'null') and tbl_crashreport.project_id =2 and  year(FROM_UNIXTIME(tbl_crashreport.date_created)) = '$anoselecionado' and (tbl_appversion.version not like '(not set)')";
+                $result6=mysqli_query($conn,$query6);
+                $query7="select count(tbl_crashreport.id) as g from tbl_crashreport left join tbl_appversion on tbl_appversion.id = tbl_crashreport.appversion_id  where (tbl_appversion.version not like '%DEV' AND tbl_appversion.version not like '%RC'  AND tbl_appversion.version not like 'null') and tbl_crashreport.project_id =4 and  year(FROM_UNIXTIME(tbl_crashreport.date_created)) = '$anoselecionado' and (tbl_appversion.version not like '(not set)')";
+                $result7=mysqli_query($conn,$query7);
+
+
+                ?>
+
+
+                <?php
+
+
+                $eberick = 1 ;
+                $qibuilder = 1 ;
+                $qicad = 1 ;
+
+                if($result5)
+                {
+                    while($row=mysqli_fetch_assoc($result5))
+                    {
+                        $eberick = $row['e'];
+                    }     
+                }
+                if($result6)
+                {
+                    while($row=mysqli_fetch_assoc($result6))
+                    {
+                        $qibuilder = $row['f'];
+                    }     
+                }
+                if($result7)
+                {
+                    while($row=mysqli_fetch_assoc($result7))
+                    {
+                        $qicad = $row['g'];
+                    }     
+                }
+
+                echo '<br/>';
+                $soma2 = $eberick + $qibuilder + $qicad;
+
+
+                if($eberick != 0){
+                    $porcentagemeberick = (100*$eberick)/$soma2;
+                }else{
+                    $porcentagemeberick = 0;
+                }
+
+                if($qibuilder != 0){
+                    $porcentagemqibuilder = (100*$qibuilder)/$soma2;    
+                }else {
+                    $porcentagemqibuilder = 0;
+                }
+
+                if($qicad != 0) {
+                    $porcentagemqicad = (100*$qicad)/$soma2;    
+                }else{
+                    $porcentagemqicad = 0;
+                }
+
+
+
+                ?>
+
+                <script type="text/javascript">
+                    google.charts.load('current', {packages: ['corechart']});
+                    google.charts.setOnLoadCallback(drawChart2);
+
+                    function drawChart2() {
+                        // Define the chart to be drawn.
+                        var data = new google.visualization.DataTable();
+                        data.addColumn('string', 'Element');
+                        data.addColumn('number', 'Percentage');
+                        data.addRows([
+                            ['Eberick: <?php echo $eberick?>', <?php echo $porcentagemeberick?>],
+                            ['Qibuilder: <?php echo $qibuilder?>',  <?php echo $porcentagemqibuilder?>],
+                            ['Qicad: <?php echo $qicad?>',  <?php echo $porcentagemqicad?>]
+                        ]);
+
+
+                        var options = {
+                            colors: ['#335E52', '#2CA871', '#6FEDC0'],
+                            title: 'Crashes de <?php echo $anoselecionado?>',
+                            is3D: true,
+                        };
+
+                        // Instantiate and draw the chart.
+                        var chart = new google.visualization.PieChart(document.getElementById('myPieChart2'));
+                        chart.draw(data, options);
+                    }
+                </script>
+
+
+
+                <br/>
+
+
+                <?php
+    if(($eberick + $qibuilder + $qicad != 0)  ){
+                ?>
+                <div id="myPieChart2" style="border: 1px;   height: 200px; width: 500px;"></div></td>
+            <?php
+    }else{
+            ?>
+            <div> Resultado = zero </div></td>
+    <?php
+    }
+    ?>
+    </tr>
+</table>
+
+
+<?php 
 //CONSULTAS EBERICK----------------------------------------------------------------------
 //JANEIRO
 $query12="select count(tbl_crashreport.id) as p from tbl_crashreport left join tbl_appversion on tbl_appversion.id = tbl_crashreport.appversion_id  where (tbl_appversion.version not like '%DEV' AND tbl_appversion.version not like '%RC'  AND tbl_appversion.version not like 'null') and tbl_crashreport.project_id =1 and  year(FROM_UNIXTIME(tbl_crashreport.date_created)) = '$anoselecionado' and month(FROM_UNIXTIME(date_created)) = 01 and (tbl_appversion.version not like '(not set)')";
@@ -468,9 +562,10 @@ if($result47)
         $dezembrocad = $row['aac'];
     }     
 }
-
+//create array variable
 $values = [];
 
+//pushing some variables to the array so we can output something in this example.
 array_push($values, array("mes" => "JAN", "newbalance" => $janeiro, "newbalance2" => $janeiroqi, "newbalance3" => $janeirocad));
 array_push($values, array("mes" => "FEV", "newbalance" => $fevereiro, "newbalance2" => $fevereiroqi, "newbalance3" => $fevereirocad));
 array_push($values, array("mes" => "MAR", "newbalance" => $marco, "newbalance2" => $marcoqi, "newbalance3" => $marcocad));
@@ -485,10 +580,72 @@ array_push($values, array("mes" => "NOV", "newbalance" => $novembro, "newbalance
 array_push($values, array("mes" => "DEZ", "newbalance" => $dezembro, "newbalance2" => $dezembroqi, "newbalance3" => $dezembrocad));
 
 
+/*
 
+    //pushing some variables to the array so we can output something in this example.
+array_push($values, array("mes" => "JAN", "newbalance" => $janeiro, "newbalance2" => $janeiroqi, "newbalance3" => $janeirocad));
+array_push($values, array("mes" => "FEV", "newbalance" => $fevereiro, "newbalance2" => $fevereiroqi, "newbalance3" => $fevereirocad));
+array_push($values, array("mes" => "MAR", "newbalance" => $marco, "newbalance2" => $marcoqi, "newbalance3" => $marcocad));
+array_push($values, array("mes" => "ABR", "newbalance" => $abril, "newbalance2" => $abrilqi, "newbalance3" => $abrilcad));
+array_push($values, array("mes" => "MAI", "newbalance" => $maio, "newbalance2" => $maioqi, "newbalance3" => $maiocad));
+array_push($values, array("mes" => "JUN", "newbalance" => $junho, "newbalance2" => $junhoqi, "newbalance3" => $junhocad));
+array_push($values, array("mes" => "JUL", "newbalance" => $julho, "newbalance2" => $julhoqi, "newbalance3" => $julhocad));
+array_push($values, array("mes" => "AGO", "newbalance" => $agosto, "newbalance2" => $agostoqi, "newbalance3" => $agostocad));
+array_push($values, array("mes" => "SET", "newbalance" => $setembro, "newbalance2" => $setembroqi, "newbalance3" => $setembrocad));
+array_push($values, array("mes" => "OUT", "newbalance" => $outubro, "newbalance2" => $outubroqi, "newbalance3" => $outubrocad));
+array_push($values, array("mes" => "NOV", "newbalance" => $novembro, "newbalance2" => $novembroqi, "newbalance3" => $novembrocad));
+array_push($values, array("mes" => "DEZ", "newbalance" => $dezembro, "newbalance2" => $dezembroqi, "newbalance3" => $dezembrocad));
+*/
+
+//counting the length of the array
 $countArrayLength = count($values);
 
+?>
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<script type="text/javascript">
+    google.load("visualization", "1", {packages:["corechart"]});
+    google.setOnLoadCallback(drawChart);
+
+    function drawChart() {
+
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Mes');
+        data.addColumn('number', 'Eberick');
+        data.addColumn('number', 'QiBuilder');
+        data.addColumn('number', 'QiCad');
+
+        data.addRows([
+
+            <?php
+            for($i=0;$i<$countArrayLength;$i++){
+                echo "['" . $values[$i]['mes'] . "'," . $values[$i]['newbalance'] . "," . $values[$i]['newbalance2'] . "," . $values[$i]['newbalance3'] . "],";
+            }
+            ?>
+        ]);
+
+        var options = {
+            title: 'Crashes mês a mês',
+            curveType: 'function',
+            legend: { position: 'bottom' }, 
+            colors: ['#335E52', '#2CA871', '#6FEDC0']
+        };
+
+        var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
+        chart.draw(data, options);
+    }
+</script>
+
+<div class="grid-container"> 
+    <div class="grid-100 grid-parent">
+        <div id="curve_chart" style="width: 100%; height: auto"></div>
+    </div>   
+
+</div>
+
+
+<?php
 //-----------------------------------------------------------------------
+//PRECISO CONSIDERAR O ANO AQUI NESSA QUERY MAS AINDA NAO FIZ 
 $result11 = $conn->query("select distinct tbl_crashreport.appversion_id, tbl_appversion.version from tbl_crashreport left join tbl_appversion on tbl_appversion.id = tbl_crashreport.appversion_id  where (tbl_appversion.version not like '%DEV' AND tbl_appversion.version not like '%RC'  AND tbl_appversion.version not like 'null') and tbl_crashreport.project_id =1 and  year(FROM_UNIXTIME(tbl_crashreport.date_created)) = '$anoselecionado' and (tbl_appversion.version not like '(not set)')");
 $idq[0] = 0;
 $versao11[0] = 0;
@@ -653,9 +810,132 @@ for($i = 0; $i < $maxi; $i++){
     }
 }
 
+?>
 
 
+<script type="text/javascript">
+    google.charts.load('current', {'packages':['corechart']});
+    google.charts.setOnLoadCallback(drawChart);
+
+    function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+
+            <?php
+            $maxi = sizeof($versao11);
+            echo "['MES',";            
+            for($i = 0; $i < $maxi;$i++)
+            {
+                echo "'" . $versao11[$i] . "',";
+            }
+            echo "],";
+            ?>
+
+            ['JAN',    <?php
+             for($i = 0; $i < $maxi;$i++)
+             {
+                 echo $areaJANEberick[$i] . ",";
+             }
+             echo "],";
+             ?>
+
+             ['FEV',  <?php
+              for($i = 0; $i < $maxi;$i++)
+              {
+                  echo $areaFEVEberick[$i] . ",";
+              }
+              echo "],";
+              ?>
+              ['MAR',  <?php
+               for($i = 0; $i < $maxi;$i++)
+               {
+                   echo $areaMAREberick[$i] . ",";
+               }
+               echo "],";
+               ?>
+               ['ABR', <?php
+                for($i = 0; $i < $maxi;$i++)
+                {
+                    echo $areaABREberick[$i] . ",";
+                }
+                echo "],";
+                ?>
+                ['MAI', <?php
+                 for($i = 0; $i < $maxi;$i++)
+                 {
+                     echo $areaMAIEberick[$i] . ",";
+                 }
+                 echo "],";
+                 ?>
+                 ['JUN', <?php
+                  for($i = 0; $i < $maxi;$i++)
+                  {
+                      echo $areaJUNEberick[$i] . ",";
+                  }
+                  echo "],";
+                  ?>
+                  ['JUL',  <?php
+                   for($i = 0; $i < $maxi;$i++)
+                   {
+                       echo $areaJULEberick[$i] . ",";
+                   }
+                   echo "],";
+                   ?>
+                   ['AGO',  <?php
+                    for($i = 0; $i < $maxi;$i++)
+                    {
+                        echo $areaAGOEberick[$i] . ",";
+                    }
+                    echo "],";
+                    ?>
+                    ['SET',  <?php
+                     for($i = 0; $i < $maxi;$i++)
+                     {
+                         echo $areaSETEberick[$i] . ",";
+                     }
+                     echo "],";
+                     ?>
+                     ['OUT',  <?php
+                      for($i = 0; $i < $maxi;$i++)
+                      {
+                          echo $areaOUTEberick[$i] . ",";
+                      }
+                      echo "],";
+                      ?>
+                      ['NOV', <?php
+                       for($i = 0; $i < $maxi;$i++)
+                       {
+                           echo $areaNOVEberick[$i] . ",";
+                       }
+                       echo "],";
+                       ?>
+                       ['DEZ',  <?php
+                        for($i = 0; $i < $maxi;$i++)
+                        {
+                            echo $areaDEZEberick[$i] . ",";
+                        }
+                        echo "],";
+                        ?>
+                       ]);
+
+                       var options = {
+                       title: 'Eberick - Número de crashes por mês, ano e versão',
+                       hAxis: {title: 'Mês',  titleTextStyle: {color: '#333'}},
+                       vAxis: {minValue: 0}
+                       };
+                       var chart = new google.visualization.AreaChart(document.getElementById('chart_div3'));
+                       chart.draw(data, options);
+                       }
+</script>
+<div id="chart_div3" style="width: 100%; height: 500px;"></div>
+
+
+
+
+
+
+<?php
 //-----------------------------------------------------------------------
+//PRECISO CONSIDERAR O ANO AQUI NESSA QUERY MAS AINDA NAO FIZ 
 $result10 = $conn->query("select distinct tbl_crashreport.appversion_id, tbl_appversion.version from tbl_crashreport left join tbl_appversion on tbl_appversion.id = tbl_crashreport.appversion_id  where (tbl_appversion.version not like '%DEV' AND tbl_appversion.version not like '%RC'  AND tbl_appversion.version not like 'null') and tbl_crashreport.project_id =2 and  year(FROM_UNIXTIME(tbl_crashreport.date_created)) = '$anoselecionado' and (tbl_appversion.version not like '(not set)')");
 $ids[0] = 0;
 $versao10[0] = 0;
@@ -820,8 +1100,129 @@ for($i = 0; $i < $maxa; $i++){
     }
 }
 
-//-------------------------------------------------------------------------------------------------------
+?>
 
+
+<script type="text/javascript">
+    google.charts.load('current', {'packages':['corechart']});
+    google.charts.setOnLoadCallback(drawChart);
+
+    function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+
+            <?php
+            $maxa = sizeof($versao10);
+            echo "['MES',";            
+            for($i = 0; $i < $maxa;$i++)
+            {
+                echo "'" . $versao10[$i] . "',";
+            }
+            echo "],";
+            ?>
+
+            ['JAN',    <?php
+             for($i = 0; $i < $maxa;$i++)
+             {
+                 echo $areaJANQibuilder[$i] . ",";
+             }
+             echo "],";
+             ?>
+
+             ['FEV',  <?php
+              for($i = 0; $i < $maxa;$i++)
+              {
+                  echo $areaFEVQibuilder[$i] . ",";
+              }
+              echo "],";
+              ?>
+              ['MAR',  <?php
+               for($i = 0; $i < $maxa;$i++)
+               {
+                   echo $areaMARQibuilder[$i] . ",";
+               }
+               echo "],";
+               ?>
+               ['ABR', <?php
+                for($i = 0; $i < $maxa;$i++)
+                {
+                    echo $areaABRQibuilder[$i] . ",";
+                }
+                echo "],";
+                ?>
+                ['MAI', <?php
+                 for($i = 0; $i < $maxa;$i++)
+                 {
+                     echo $areaMAIQibuilder[$i] . ",";
+                 }
+                 echo "],";
+                 ?>
+                 ['JUN', <?php
+                  for($i = 0; $i < $maxa;$i++)
+                  {
+                      echo $areaJUNQibuilder[$i] . ",";
+                  }
+                  echo "],";
+                  ?>
+                  ['JUL',  <?php
+                   for($i = 0; $i < $maxa;$i++)
+                   {
+                       echo $areaJULQibuilder[$i] . ",";
+                   }
+                   echo "],";
+                   ?>
+                   ['AGO',  <?php
+                    for($i = 0; $i < $maxa;$i++)
+                    {
+                        echo $areaAGOQibuilder[$i] . ",";
+                    }
+                    echo "],";
+                    ?>
+                    ['SET',  <?php
+                     for($i = 0; $i < $maxa;$i++)
+                     {
+                         echo $areaSETQibuilder[$i] . ",";
+                     }
+                     echo "],";
+                     ?>
+                     ['OUT',  <?php
+                      for($i = 0; $i < $maxa;$i++)
+                      {
+                          echo $areaOUTQibuilder[$i] . ",";
+                      }
+                      echo "],";
+                      ?>
+                      ['NOV', <?php
+                       for($i = 0; $i < $maxa;$i++)
+                       {
+                           echo $areaNOVQibuilder[$i] . ",";
+                       }
+                       echo "],";
+                       ?>
+                       ['DEZ',  <?php
+                        for($i = 0; $i < $maxa;$i++)
+                        {
+                            echo $areaDEZQibuilder[$i] . ",";
+                        }
+                        echo "],";
+                        ?>
+                       ]);
+
+                       var options = {
+                       title: 'QiBuilder - Número de crashes por mês, ano e versão',
+                       hAxis: {title: 'Mês',  titleTextStyle: {color: '#333'}},
+                       vAxis: {minValue: 0}
+                       };
+                       var chart = new google.visualization.AreaChart(document.getElementById('chart_div2'));
+                       chart.draw(data, options);
+                       }
+</script>
+<div id="chart_div2" style="width: 100%; height: 500px;"></div>
+
+
+
+<?php
+//-------------------------------------------------------------------------------------------------------
+//PRECISO CONSIDERAR O ANO AQUI NESSA QUERY MAS AINDA NAO FIZ 
 $result9 = $conn->query("select distinct tbl_crashreport.appversion_id, tbl_appversion.version from tbl_crashreport left join tbl_appversion on tbl_appversion.id = tbl_crashreport.appversion_id  where (tbl_appversion.version not like '%DEV' AND tbl_appversion.version not like '%RC'  AND tbl_appversion.version not like 'null') and tbl_crashreport.project_id =4 and  year(FROM_UNIXTIME(tbl_crashreport.date_created)) = '$anoselecionado' and (tbl_appversion.version not like '(not set)')");
 $idi[0] = 0;
 $versao9[0] = 0;
@@ -989,357 +1390,6 @@ for($i = 0; $i < $max; $i++){
 ?>
 
 
-
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Trasitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html>
-    <head>
-        <meta http-equiv="content-type" content="txt/html; charset=utf-8" />
-        <title>Gráficos e Relatórios Crashfix</title>
-        <link rel="shortcut icon" href="https://www.altoqi.com.br/wp-content/uploads/2017/10/cropped-favicon-01.png" type="image/x-icon" 
-
-              <script type="text/javascript" src="https://www.google.com/jsapi"></script>
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
-    <script type="text/javascript">
-  
-    </script>
-    </head>
-
-
-<body >
-    <table class="columns">
-        <tr>
-            <td>
-                <p style="font-family: 'Lato', Helvetica, Arial, sans-serif; "><b>Selecione o ano desejado</b></p>
-
-                <form  method="post">
-
-                    <select id="SelecaoAno" name="SelecaoAno">
-                        <option value="selecione"  <?php if ($anoselecionado == 2015 )  echo 'selected'; ?>>Ano</option>
-                        <option value="2017" <?php if ($anoselecionado == 2017 ) echo 'selected'; ?>>2017</option>
-                        <option value="2018" <?php if ($anoselecionado == 2018 )  echo 'selected'; ?>>2018</option>
-                        <option value="2019" <?php if ($anoselecionado == 2019 )  echo 'selected'; ?>>2019</option>
-                    </select>
-                    <input type="submit" name="submit" value="Selecionar"/>
-                </form>
-
-                <?php
-
-                ?>
-
-                <script type="text/javascript">
-                    google.charts.load('current', {packages: ['corechart']});
-                    google.charts.setOnLoadCallback(drawChart2);
-
-                    function drawChart2() {
-                        // Define the chart to be drawn.
-                        var data = new google.visualization.DataTable();
-                        data.addColumn('string', 'Element');
-                        data.addColumn('number', 'Percentage');
-                        data.addRows([
-                            ['Eberick: <?php echo $eberick?>', <?php echo $porcentagemeberick?>],
-                            ['Qibuilder: <?php echo $qibuilder?>',  <?php echo $porcentagemqibuilder?>],
-                            ['Qicad: <?php echo $qicad?>',  <?php echo $porcentagemqicad?>]
-                        ]);
-
-
-                        var options = {
-                            colors: ['#335E52', '#2CA871', '#6FEDC0'],
-                            title: 'Crashes de <?php echo $anoselecionado?>',
-                            is3D: true,
-                        };
-
-                        // Instantiate and draw the chart.
-                        var chart = new google.visualization.PieChart(document.getElementById('myPieChart2'));
-                        chart.draw(data, options);
-                    }
-                </script>
-                <br/>
-                <?php
-    if(($eberick + $qibuilder + $qicad != 0)  ){
-                ?>
-                <div id="myPieChart2" style="border: 1px;   height: 200px; width: 500px;"></div></td>
-            <?php
-    }else{
-            ?>
-            <div> Resultado = zero </div></td>
-    <?php
-    }
-    ?>
-    </tr>
-</table>
-
-<script type="text/javascript" src="https://www.google.com/jsapi"></script>
-<script type="text/javascript">
-    google.load("visualization", "1", {packages:["corechart"]});
-    google.setOnLoadCallback(drawChart);
-
-    function drawChart() {
-        var data = new google.visualization.DataTable();
-        data.addColumn('string', 'Mes');
-        data.addColumn('number', 'Eberick');
-        data.addColumn('number', 'QiBuilder');
-        data.addColumn('number', 'QiCad');
-
-        data.addRows([
-
-            <?php
-            for($i=0;$i<$countArrayLength;$i++){
-                echo "['" . $values[$i]['mes'] . "'," . $values[$i]['newbalance'] . "," . $values[$i]['newbalance2'] . "," . $values[$i]['newbalance3'] . "],";
-            }
-            ?>
-        ]);
-
-        var options = {
-            title: 'Crashes mês a mês',
-            curveType: 'function',
-            legend: { position: 'bottom' }, 
-            colors: ['#335E52', '#2CA871', '#6FEDC0']
-        };
-
-        var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
-        chart.draw(data, options);
-    }
-</script>
-
-<div class="grid-container"> 
-    <div class="grid-100 grid-parent">
-        <div id="curve_chart" style="width: 100%; height: auto"></div>
-    </div>   
-
-</div>
-
-<script type="text/javascript">
-    google.charts.load('current', {'packages':['corechart']});
-    google.charts.setOnLoadCallback(drawChart);
-
-    function drawChart() {
-        var data = google.visualization.arrayToDataTable([
-
-            <?php
-            $maxi = sizeof($versao11);
-            echo "['MES',";            
-            for($i = 0; $i < $maxi;$i++)
-            {
-                echo "'" . $versao11[$i] . "',";
-            }
-            echo "],";
-            ?>
-
-            ['JAN',    <?php
-             for($i = 0; $i < $maxi;$i++)
-             {
-                 echo $areaJANEberick[$i] . ",";
-             }
-             echo "],";
-             ?>
-
-             ['FEV',  <?php
-              for($i = 0; $i < $maxi;$i++)
-              {
-                  echo $areaFEVEberick[$i] . ",";
-              }
-              echo "],";
-              ?>
-              ['MAR',  <?php
-               for($i = 0; $i < $maxi;$i++)
-               {
-                   echo $areaMAREberick[$i] . ",";
-               }
-               echo "],";
-               ?>
-               ['ABR', <?php
-                for($i = 0; $i < $maxi;$i++)
-                {
-                    echo $areaABREberick[$i] . ",";
-                }
-                echo "],";
-                ?>
-                ['MAI', <?php
-                 for($i = 0; $i < $maxi;$i++)
-                 {
-                     echo $areaMAIEberick[$i] . ",";
-                 }
-                 echo "],";
-                 ?>
-                 ['JUN', <?php
-                  for($i = 0; $i < $maxi;$i++)
-                  {
-                      echo $areaJUNEberick[$i] . ",";
-                  }
-                  echo "],";
-                  ?>
-                  ['JUL',  <?php
-                   for($i = 0; $i < $maxi;$i++)
-                   {
-                       echo $areaJULEberick[$i] . ",";
-                   }
-                   echo "],";
-                   ?>
-                   ['AGO',  <?php
-                    for($i = 0; $i < $maxi;$i++)
-                    {
-                        echo $areaAGOEberick[$i] . ",";
-                    }
-                    echo "],";
-                    ?>
-                    ['SET',  <?php
-                     for($i = 0; $i < $maxi;$i++)
-                     {
-                         echo $areaSETEberick[$i] . ",";
-                     }
-                     echo "],";
-                     ?>
-                     ['OUT',  <?php
-                      for($i = 0; $i < $maxi;$i++)
-                      {
-                          echo $areaOUTEberick[$i] . ",";
-                      }
-                      echo "],";
-                      ?>
-                      ['NOV', <?php
-                       for($i = 0; $i < $maxi;$i++)
-                       {
-                           echo $areaNOVEberick[$i] . ",";
-                       }
-                       echo "],";
-                       ?>
-                       ['DEZ',  <?php
-                        for($i = 0; $i < $maxi;$i++)
-                        {
-                            echo $areaDEZEberick[$i] . ",";
-                        }
-                        echo "],";
-                        ?>
-                       ]);
-
-                       var options = {
-                       title: 'Eberick - Número de crashes por mês, ano e versão',
-                       hAxis: {title: 'Mês',  titleTextStyle: {color: '#333'}},
-                       vAxis: {minValue: 0}
-                       };
-                       var chart = new google.visualization.AreaChart(document.getElementById('chart_div3'));
-                       chart.draw(data, options);
-                       }
-</script>
-<div id="chart_div3" style="width: 100%; height: 500px;"></div>
-
-
-<script type="text/javascript">
-    google.charts.load('current', {'packages':['corechart']});
-    google.charts.setOnLoadCallback(drawChart);
-
-    function drawChart() {
-        var data = google.visualization.arrayToDataTable([
-
-            <?php
-            $maxa = sizeof($versao10);
-            echo "['MES',";            
-            for($i = 0; $i < $maxa;$i++)
-            {
-                echo "'" . $versao10[$i] . "',";
-            }
-            echo "],";
-            ?>
-
-            ['JAN',    <?php
-             for($i = 0; $i < $maxa;$i++)
-             {
-                 echo $areaJANQibuilder[$i] . ",";
-             }
-             echo "],";
-             ?>
-
-             ['FEV',  <?php
-              for($i = 0; $i < $maxa;$i++)
-              {
-                  echo $areaFEVQibuilder[$i] . ",";
-              }
-              echo "],";
-              ?>
-              ['MAR',  <?php
-               for($i = 0; $i < $maxa;$i++)
-               {
-                   echo $areaMARQibuilder[$i] . ",";
-               }
-               echo "],";
-               ?>
-               ['ABR', <?php
-                for($i = 0; $i < $maxa;$i++)
-                {
-                    echo $areaABRQibuilder[$i] . ",";
-                }
-                echo "],";
-                ?>
-                ['MAI', <?php
-                 for($i = 0; $i < $maxa;$i++)
-                 {
-                     echo $areaMAIQibuilder[$i] . ",";
-                 }
-                 echo "],";
-                 ?>
-                 ['JUN', <?php
-                  for($i = 0; $i < $maxa;$i++)
-                  {
-                      echo $areaJUNQibuilder[$i] . ",";
-                  }
-                  echo "],";
-                  ?>
-                  ['JUL',  <?php
-                   for($i = 0; $i < $maxa;$i++)
-                   {
-                       echo $areaJULQibuilder[$i] . ",";
-                   }
-                   echo "],";
-                   ?>
-                   ['AGO',  <?php
-                    for($i = 0; $i < $maxa;$i++)
-                    {
-                        echo $areaAGOQibuilder[$i] . ",";
-                    }
-                    echo "],";
-                    ?>
-                    ['SET',  <?php
-                     for($i = 0; $i < $maxa;$i++)
-                     {
-                         echo $areaSETQibuilder[$i] . ",";
-                     }
-                     echo "],";
-                     ?>
-                     ['OUT',  <?php
-                      for($i = 0; $i < $maxa;$i++)
-                      {
-                          echo $areaOUTQibuilder[$i] . ",";
-                      }
-                      echo "],";
-                      ?>
-                      ['NOV', <?php
-                       for($i = 0; $i < $maxa;$i++)
-                       {
-                           echo $areaNOVQibuilder[$i] . ",";
-                       }
-                       echo "],";
-                       ?>
-                       ['DEZ',  <?php
-                        for($i = 0; $i < $maxa;$i++)
-                        {
-                            echo $areaDEZQibuilder[$i] . ",";
-                        }
-                        echo "],";
-                        ?>
-                       ]);
-
-                       var options = {
-                       title: 'QiBuilder - Número de crashes por mês, ano e versão',
-                       hAxis: {title: 'Mês',  titleTextStyle: {color: '#333'}},
-                       vAxis: {minValue: 0}
-                       };
-                       var chart = new google.visualization.AreaChart(document.getElementById('chart_div2'));
-                       chart.draw(data, options);
-                       }
-</script>
-<div id="chart_div2" style="width: 100%; height: 500px;"></div>
-
 <script type="text/javascript">
     google.charts.load('current', {'packages':['corechart']});
     google.charts.setOnLoadCallback(drawChart);
@@ -1468,3 +1518,29 @@ for($i = 0; $i < $max; $i++){
 <div id="chart_div" style="width: 100%; height: 500px;"></div>
 </body>
 </html>
+
+<?php
+/* ANOTACAO IMPORTANTES 
+$max = sizeof($versao9);
+echo "[";            
+for($i = 0; $i < $max;$i++)
+{
+    echo "'" . $idi[$i] . "',";
+}
+echo "],";
+
+
+
+ query que deu certo 
+select * from tbl_appversion where (version not like '%DEV' AND version not like '%RC'  AND version not like 'null') and project_id =1  and (version not like '(not set)') order by id
+
+SELECT  tbl_appversion.project_id ,version, appversion_id  FROM crashfix.tbl_crashreport, crashfix.tbl_appversion  
+
+
+//conta os crashes sem os internos 
+
+select count(tbl_crashreport.id) from tbl_crashreport left join tbl_appversion on tbl_appversion.id = tbl_crashreport.appversion_id  where (tbl_appversion.version not like '%DEV' AND tbl_appversion.version not like '%RC'  AND tbl_appversion.version not like 'null') and tbl_crashreport.project_id =1 and  year(FROM_UNIXTIME(tbl_crashreport.date_created)) = 2018 and  month(FROM_UNIXTIME(tbl_crashreport.date_created)) = 01 and (tbl_appversion.version not like '(not set)')
+
+
+*/
+?>
