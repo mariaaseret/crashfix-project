@@ -1,42 +1,35 @@
-<style>
-.content {display:none;}
-.preload { width:100px;
-    height: 100px;
-    position: fixed;
-    top: 50%;
-    left: 50%;}
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>load demo</title>
+        <style>
+            body {
+                font-size: 12px;
+                font-family: Arial;
+            }
+        </style>
+        <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    </head>
+    <body>
 
-</style>
-<!DOCTYPE html>
-<html>
-<head>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script>
-$(function() {
-    $(".preload").fadeOut(2000, function() {
-        $(".content").fadeIn(1000);        
-    });
-});
-</script>
-</head>
-<body>
+        <b>Successful Response (should be blank): </b>
+        <div id="success"></div>
+        <b>Error Response:</b>
+        <div id="error"></div>
+    <script type="text/javascript" src="https://www.google.com/jsapi" async></script>
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js" async></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+        <script>
+            $( "#success" ).load( "/projeto-crashfix/construindo.php", function( response, status, xhr ) {
+                
+                if ( status == "error" ) {
+                    var msg = "Sorry but there was an error2: ";
+                    $( "#error" ).html( msg + xhr.status + " " + xhr.statusText );
+                }
+            });
 
-<div class="preload"><img src="http://devsite1.altoqi.com.br/projeto-crashfix/load.gif">
-</div>
-<div class="content">I would like to display a loading bar before the entire page is loaded. For now, I'm just using a small delay:
+        </script>
 
-$(document).ready(function(){
-    $('#page').fadeIn(2000);
-});
-The page already uses jquery.
-
-Note: I have tried this, but it didn't work for me:
-
-loading bar while script runs
-
-I also tried other solutions. In most cases, the page loads as usually or the page won't load/display at all.
-
-Thank you for any help.</div>
-
-</body>
+    </body>
 </html>
